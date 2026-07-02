@@ -15,40 +15,7 @@
   </header>
 
   <main class="container">
-    <section class="qr-panel">
-      <div>
-        <h2>Your QR Link</h2>
-        <p class="qr-description">Scan to open this menu on your phone</p>
-        
-        <canvas id="qrCanvas" style="display: block; margin: 10px auto; max-width: 150px;"></canvas>
-        <div id="qrStatus" class="qr-status" data-state="loading">Loading...</div>
-        
-        <!-- Interactive URL Configuration -->
-        <div class="qr-config-section">
-          <div class="qr-input-group">
-            <label for="qrUrlInput" class="sr-only">QR Target URL</label>
-            <input type="url" id="qrUrlInput" placeholder="https://your-website.com" class="qr-url-input">
-            <button id="updateQrBtn" class="qr-btn">Update</button>
-          </div>
-          <button id="regenBtn" class="qr-btn" style="background-color: rgba(75, 46, 31, 0.1); color: var(--text-main); font-size: 12px; padding: 6px 14px; border-radius: 8px; margin-top: 4px;">Reset to Page URL</button>
-          
-          <!-- Warning Badge & Help Box (hidden by default, shown for local environments) -->
-          <div id="localWarning" class="local-warning-box" style="display: none;">
-            <span class="warning-badge">⚠️ Local Address Detected</span>
-            <p>Phone scanners cannot access local server URLs (localhost/file) directly. Connect both devices to the same Wi-Fi network and input your computer's local IP address above to test.</p>
-            <details class="help-details">
-              <summary>How do I find my local IP address?</summary>
-              <ol>
-                <li>Open Terminal on your Mac.</li>
-                <li>Run <code>ipconfig getifaddr en0</code> (or check System Settings > Wi-Fi > Details).</li>
-                <li>Make sure your phone is on the same Wi-Fi network.</li>
-                <li>Enter <code>http://&lt;your-ip&gt;:8080</code> (if running a local server) in the input above and click <strong>Update</strong>.</li>
-              </ol>
-            </details>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- QR panel removed: site now shows the menu directly -->
 
     <div class="menu-tabs" role="tablist" aria-label="Menu categories">
       <button class="menu-tab" type="button" data-panel="drinks-panel">Drinks</button>
@@ -481,8 +448,8 @@
     </section>
 
     <footer class="site-footer">
-      <p>Designed for mobile — open on your phone and scan the QR code.</p>
-    </footer>
+        <p>Designed for mobile — open on your phone to view the menu.</p>
+      </footer>
   </main>
 
   <div id="imageModal" class="image-modal" aria-hidden="true">
@@ -493,8 +460,6 @@
     </div>
   </div>
 
-  <script src="vendor/qrcode.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script src="script.js?v=20260702"></script>
 </body>
 </html>
