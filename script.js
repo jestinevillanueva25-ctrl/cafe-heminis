@@ -1,19 +1,3 @@
-const LOCAL_STORAGE_KEY = 'cafe_menu_qr_url';
-
-function getShareableUrl() {
-  const savedUrl = localStorage.getItem(LOCAL_STORAGE_KEY);
-  if (savedUrl) {
-    return savedUrl;
-  }
-  return window.location.href.split('#')[0];
-}
-
-function isLocalUrl(url) {
-  return url.startsWith('file:') || 
-         url.includes('localhost') || 
-         url.includes('127.0.0.1');
-}
-
 function openImageModal(src) {
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('featuredPhoto');
@@ -35,88 +19,12 @@ function closeImageModal() {
   document.body.style.overflow = '';
 }
 
-async function generateQR() {
-  const canvas = document.getElementById('qrCanvas');
-  const statusEl = document.getElementById('qrStatus');
-  const urlInput = document.getElementById('qrUrlInput');
-  const warningEl = document.getElementById('localWarning');
-  const targetUrl = getShareableUrl();
-
-  if (!canvas) return;
-
-  if (urlInput) {
-    urlInput.value = targetUrl;
-  }
-
-  // Show local warning if running locally (either window.location is local OR targetUrl is local)
-  if (warningEl) {
-    const currentLoc = window.location.href;
-    if (isLocalUrl(currentLoc) && isLocalUrl(targetUrl)) {
-      warningEl.style.display = 'block';
-    } else {
-      warningEl.style.display = 'none';
-    }
-  }
-
-  if (statusEl) {
-    statusEl.textContent = 'Generating QR...';
-  }
-
-  const ctx = canvas.getContext('2d');
-  canvas.width = 220;
-  canvas.height = 220;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  try {
-    const qrLib = window.QRCode || window.qrcode;
-    if (qrLib && typeof qrLib.toDataURL === 'function') {
-      const dataUrl = await qrLib.toDataURL(targetUrl, {
-        width: 220,
-        margin: 2,
-        color: { dark: '#1f1f1f', light: '#ffffff' }
-      });
-      const img = new Image();
-      img.src = dataUrl;
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-      });
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    } else if (qrLib && typeof qrLib.toCanvas === 'function') {
-      await qrLib.toCanvas(targetUrl, canvas, {
-        width: 220,
-        margin: 2,
-        color: { dark: '#1f1f1f', light: '#ffffff' }
-      });
-    } else {
-      throw new Error('QR library not available');
-    }
-
-    if (statusEl) {
-      statusEl.textContent = 'QR ready';
-    }
-  } catch (error) {
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#333333';
-    ctx.font = '16px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('QR unavailable', canvas.width / 2, canvas.height / 2 - 8);
-    ctx.font = '12px sans-serif';
-    ctx.fillText('Refresh the page', canvas.width / 2, canvas.height / 2 + 18);
-
-    if (statusEl) {
-      statusEl.textContent = 'QR library unavailable';
-    }
-  }
-}
+/* QR generation removed — site now displays the menu directly. */
 
 document.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.menu-tab');
   const panels = document.querySelectorAll('.menu-panel');
-  const regenBtn = document.getElementById('regenBtn');
+  // QR elements removed; keep modal and tab behavior
   const closeBtn = document.getElementById('closeModal');
   const backdrop = document.getElementById('modalBackdrop');
 
@@ -149,39 +57,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (event.key === 'Escape') closeImageModal();
   });
 
-  const updateQrBtn = document.getElementById('updateQrBtn');
-  const urlInput = document.getElementById('qrUrlInput');
-
-  if (updateQrBtn && urlInput) {
-    updateQrBtn.addEventListener('click', () => {
-      let url = urlInput.value.trim();
-      if (!url) {
-        alert('Please enter a valid URL.');
-        return;
-      }
-      
-      // Basic validation: prepend http:// if no protocol is specified
-      if (!/^https?:\/\//i.test(url) && !url.startsWith('file:')) {
-        url = 'http://' + url;
-      }
-      
-      localStorage.setItem(LOCAL_STORAGE_KEY, url);
-      generateQR();
-    });
-
-    urlInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        updateQrBtn.click();
-      }
-    });
-  }
-
-  if (regenBtn) {
-    regenBtn.addEventListener('click', () => {
-      localStorage.removeItem(LOCAL_STORAGE_KEY);
-      generateQR();
-    });
-  }
-
-  generateQR();
+  // No QR generation to run
 });
