@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cafe Heminis - QR Menu</title>
+  <link rel="stylesheet" href="styles.css?v=20260702">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>OUR MENU</h1>
+      <p class="subtitle">Cafe Heminis - Your Neighborhood Cafe</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="qr-panel">
+      <div>
+        <h2>Your QR Link</h2>
+        <p class="qr-description">Scan to open this menu on your phone</p>
+        
+        <canvas id="qrCanvas" style="display: block; margin: 10px auto; max-width: 150px;"></canvas>
+        <div id="qrStatus" class="qr-status" data-state="loading">Loading...</div>
+        
+        <!-- Interactive URL Configuration -->
+        <div class="qr-config-section">
+          <div class="qr-input-group">
+            <label for="qrUrlInput" class="sr-only">QR Target URL</label>
+            <input type="url" id="qrUrlInput" placeholder="https://your-website.com" class="qr-url-input">
+            <button id="updateQrBtn" class="qr-btn">Update</button>
+          </div>
+          <button id="regenBtn" class="qr-btn" style="background-color: rgba(75, 46, 31, 0.1); color: var(--text-main); font-size: 12px; padding: 6px 14px; border-radius: 8px; margin-top: 4px;">Reset to Page URL</button>
+          
+          <!-- Warning Badge & Help Box (hidden by default, shown for local environments) -->
+          <div id="localWarning" class="local-warning-box" style="display: none;">
+            <span class="warning-badge">⚠️ Local Address Detected</span>
+            <p>Phone scanners cannot access local server URLs (localhost/file) directly. Connect both devices to the same Wi-Fi network and input your computer's local IP address above to test.</p>
+            <details class="help-details">
+              <summary>How do I find my local IP address?</summary>
+              <ol>
+                <li>Open Terminal on your Mac.</li>
+                <li>Run <code>ipconfig getifaddr en0</code> (or check System Settings > Wi-Fi > Details).</li>
+                <li>Make sure your phone is on the same Wi-Fi network.</li>
+                <li>Enter <code>http://&lt;your-ip&gt;:8080</code> (if running a local server) in the input above and click <strong>Update</strong>.</li>
+              </ol>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="menu-tabs" role="tablist" aria-label="Menu categories">
+      <button class="menu-tab" type="button" data-panel="drinks-panel">Drinks</button>
+      <button class="menu-tab" type="button" data-panel="food-panel">Food</button>
+    </div>
+
+    <section id="food-panel" class="menu-panel" aria-label="Food menu">
+      <section class="menu-card">
+        <h2>Snacks</h2>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Fries with Dip (Truffle Cheese)</span>
+              <span class="price">130</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Potato fries, Truffle cheese dip</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Fries with Dip (Truffle Mayo)</span>
+              <span class="price">130</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Potato fries, Truffle mayo dip</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Quesadilla (Cheese)</span>
+              <span class="price">120</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Tortilla, Cheese blend</p>
+            </div>
+          </li>
+          <li class="menu-item item-with-photo">
+            <div class="item-meta">
+              <div class="item-main">
+                <span class="name">Quesadilla (Cheesy Beef)</span>
+                <span class="price">150</span>
+              </div>
+              <div class="item-details">
+                <p class="ingredients"><strong>Ingredients:</strong> Tortilla, Cheese blend, Ground beef</p>
+              </div>
+            </div>
+            <div class="item-photo-wrapper">
+              <img class="item-photo" src="assets/beef-quesadilla.jpg" alt="Quesadilla (Cheesy Beef)" loading="lazy">
+              <span class="photo-label">Cheesy Beef</span>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Onion Rings</span>
+              <span class="price">130</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Onion slices, Batter</p>
+            </div>
+          </li>
+        </ul>
+
+        <h3>For Pre-Order</h3>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Brownies (12pcs)</span>
+              <span class="price">Pre-Order</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Flour, Cocoa, Sugar, Eggs, Butter</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Basque Burnt Cheesecake</span>
+              <span class="price">Pre-Order</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Cream cheese, Heavy cream, Sugar, Eggs</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Decadent Cheesecake</span>
+              <span class="price">Pre-Order</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Cream cheese, Graham crust, Toppings</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section id="drinks-panel" class="menu-panel is-active" aria-label="Drinks menu">
+      <section class="menu-card">
+        <h2>Cafe Heminis Special Drinks <span class="note">(Iced only)</span></h2>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Golden Oat Latte</span>
+              <span class="price">165</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Oat milk, Caramel sauce, Honey, Espresso, Pinch of salt, Caramel drizzle, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Salted Butterscotch Oat Latte</span>
+              <span class="price">165</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Oat milk, Butterscotch syrup, Espresso, Salt, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Chocolate Hazelnut Oat Latte</span>
+              <span class="price">165</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Chocolate sauce, Hazelnut syrup, Oat milk, Chocolate drizzle, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Hazelnut Affogato</span>
+              <span class="price">140</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Vanilla ice cream, Hazelnut syrup, Espresso, Crushed nuts</p>
+            </div>
+          </li>
+          <li class="menu-item item-with-photo">
+            <div class="item-meta">
+              <div class="item-main">
+                <span class="name">Biscoff Bliss</span>
+                <span class="price">175</span>
+              </div>
+              <div class="item-details">
+                <p class="ingredients"><strong>Ingredients:</strong> Biscoff spread, Condensed milk, Espresso, Milk, Biscoff crumbs, Ice</p>
+              </div>
+            </div>
+            <div class="item-photo-wrapper">
+              <img class="item-photo" src="assets/biscoff.jpg" alt="Biscoff Bliss" loading="lazy">
+              <span class="photo-label">Biscoff</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="menu-card">
+        <h2>Cafe Heminis Espresso <span class="note">(Iced 16oz)</span></h2>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Americano (Iced)</span>
+              <span class="price">110</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Water, Espresso, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cafe Latte (Iced)</span>
+              <span class="price">120</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Espresso, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cappuccino (Iced)</span>
+              <span class="price">120</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Espresso, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cafe Mocha (Iced)</span>
+              <span class="price">140</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Chocolate sauce, Espresso, Chocolate drizzle, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">White Mocha (Iced)</span>
+              <span class="price">140</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, White mocha, Espresso, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Caramel Macchiato (Iced)</span>
+              <span class="price">140</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Caramel sauce, Espresso, Caramel drizzle, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item item-with-photo">
+            <div class="item-meta">
+              <div class="item-main">
+                <span class="name">Choco Macadamia (Iced)</span>
+                <span class="price">140</span>
+              </div>
+              <div class="item-details">
+                <p class="ingredients"><strong>Ingredients:</strong> Milk, Macadamia syrup, Espresso, Cocoa powder, Ice</p>
+              </div>
+            </div>
+            <div class="item-photo-wrapper">
+              <img class="item-photo" src="assets/choco-macadamia.jpg" alt="Choco Macadamia" loading="lazy">
+              <span class="photo-label">Choco Macadamia</span>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cafe Dulce (Iced)</span>
+              <span class="price">140</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Condensed milk, Espresso, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Brown Sugar Cortado (Iced)</span>
+              <span class="price">140</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Brown sugar syrup, Espresso, Dash of cinnamon, Ice</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="menu-card">
+        <h2>Cafe Heminis Espresso <span class="note">(Hot 22oz)</span></h2>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Americano (Hot)</span>
+              <span class="price">115</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Hot water, Espresso</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cafe Latte (Hot)</span>
+              <span class="price">130</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Espresso</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cappuccino (Hot)</span>
+              <span class="price">130</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Foamy milk, Espresso</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cafe Mocha (Hot)</span>
+              <span class="price">150</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Chocolate sauce, Espresso, Chocolate drizzle</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">White Mocha (Hot)</span>
+              <span class="price">150</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, White mocha, Espresso</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Caramel Macchiato (Hot)</span>
+              <span class="price">150</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Caramel sauce, Espresso, Caramel drizzle</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Choco Macadamia (Hot)</span>
+              <span class="price">150</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Macadamia syrup, Espresso</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cafe Dulce (Hot)</span>
+              <span class="price">150</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Condensed milk, Espresso</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Brown Sugar Cortado (Hot)</span>
+              <span class="price">150</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Milk, Brown sugar syrup, Espresso, Dash of cinnamon</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="menu-card">
+        <h2>Milk-Based <span class="note">(Iced only)</span></h2>
+        <ul class="menu-list">
+          <li class="menu-item item-with-photo">
+            <div class="item-meta">
+              <div class="item-main">
+                <span class="name">Strawberry Latte</span>
+                <span class="price">120</span>
+              </div>
+              <div class="item-details">
+                <p class="ingredients"><strong>Ingredients:</strong> Strawberry puree, Strawberry syrup, Milk, Ice</p>
+              </div>
+            </div>
+            <div class="item-photo-wrapper">
+              <img class="item-photo" src="assets/strawberry-latte.jpg" alt="Strawberry Latte" loading="lazy">
+              <span class="photo-label">Strawberry</span>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cacao Chocolate Milk</span>
+              <span class="price">120</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Chocolate sauce, Milk, Cocoa powder, Hot water, Condensed milk, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Cacao Strawberry</span>
+              <span class="price">130</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Strawberry puree, Strawberry syrup, Milk, Cocoa powder, Hot water, Condensed milk, Ice</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="menu-card">
+        <h2>Water-Based Drinks</h2>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Mangonade Splash</span>
+              <span class="price">120</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Popping boba, Mango syrup, Lemonade concentrate, Water, Ice, Lemon slices</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Berry Cucumber</span>
+              <span class="price">120</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Blueberry puree, Nata de coco, Blueberry syrup, Cucumber syrup, Water, Ice</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="menu-card">
+        <h2>Soda-Based <span class="note">(Iced only)</span></h2>
+        <ul class="menu-list">
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Honey Peach Soda</span>
+              <span class="price">115</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Nata de coco, Honey, Peach syrup, Sprite Mismo, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Honey Strawberry Soda</span>
+              <span class="price">115</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Nata de coco, Honey, Strawberry syrup, Sprite Mismo, Ice</p>
+            </div>
+          </li>
+          <li class="menu-item">
+            <div class="item-main">
+              <span class="name">Honey Mixed-Berries Soda</span>
+              <span class="price">120</span>
+            </div>
+            <div class="item-details">
+              <p class="ingredients"><strong>Ingredients:</strong> Nata de coco, Honey, Mixed berries syrup, Sprite Mismo, Ice</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <footer class="site-footer">
+      <p>Designed for mobile — open on your phone and scan the QR code.</p>
+    </footer>
+  </main>
+
+  <div id="imageModal" class="image-modal" aria-hidden="true">
+    <div class="image-modal-backdrop" id="modalBackdrop" style="position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8);"></div>
+    <div class="image-modal-content" role="dialog" aria-modal="true" aria-label="Enlarged photo view" style="position: relative; margin: 10% auto; max-width: 90%; text-align: center;">
+      <button class="close-btn" id="closeModal" aria-label="Close photo view" style="position: absolute; right: 10px; top: 10px; font-size: 2rem; background: none; color: white; border: none; cursor: pointer;">×</button>
+      <img id="featuredPhoto" src="" alt="" style="max-width: 100%; max-height: 70vh; border-radius: 4px;">
+    </div>
+  </div>
+
+  <script src="vendor/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <script src="script.js?v=20260702"></script>
+</body>
+</html>
