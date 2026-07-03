@@ -103,28 +103,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // No QR generation to run
-});      if (target) target.classList.add('is-active');
-    });
-  });
-
-  document.addEventListener('click', (event) => {
-    const photo = event.target.closest('.item-photo');
-    if (!photo) return;
-
-    event.stopPropagation();
-    const src = photo.currentSrc || photo.src;
-    const modalImg = document.getElementById('featuredPhoto');
-    if (modalImg) {
-      modalImg.alt = photo.alt || 'Enlarged photo';
-    }
-    openImageModal(src);
-  });
-
-  if (closeBtn) closeBtn.addEventListener('click', closeImageModal);
-  if (backdrop) backdrop.addEventListener('click', closeImageModal);
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeImageModal();
-  });
-
-  // No QR generation to run
 });
